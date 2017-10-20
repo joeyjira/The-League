@@ -1,4 +1,6 @@
 import React from 'react';
+import Login from '../buttons/login';
+import SignUp from '../buttons/signup';
 
 
 class Header extends React.Component {
@@ -8,9 +10,10 @@ class Header extends React.Component {
 
     render() {
         return(
-            <header>
-                <h1>BITCH</h1>
-            </header>
+            <div className="header">
+                <h1>SMASH-UP</h1>
+
+            </div>
         )
     }
 }

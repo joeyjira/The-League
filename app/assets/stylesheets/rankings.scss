@@ -1,0 +1,14 @@
+.match-of-the-day {
+    display: flex;
+    height: 200px;
+    width: 100%;
+    background: green;
+}
+
+.rankings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+}

@@ -1,5 +1,22 @@
-html, body {
+html, body, #root {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
+.app-container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.landing-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: pink;
+    align-items: center;
+}
