@@ -12,3 +12,17 @@
     height: 100%;
     width: 100%;
 }
+
+.nba-ranking {
+    display: flex;
+    width: 70%;
+    height: auto;
+    background: purple;
+}
+
+.player-ranking {
+    display: flex;
+    width: 30%;
+    height: auto;
+    background: blue;
+}

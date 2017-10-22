@@ -6,4 +6,7 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :index]
     resource :session, only: [:create, :destroy, :show]
   end
+
+  get '/api/nba_records/teams', to: "api/nba_record#teams"
+  get '/api/nba_records/standings', to: "api/nba_record#standings"
 end
