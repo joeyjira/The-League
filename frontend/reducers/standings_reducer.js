@@ -9,11 +9,15 @@ const nullStandings = Object.freeze({
     west: []
 });
 
-const standingsReducer = (state = nullStandings, action) => {
+const StandingsReducer = (state = nullStandings, action) => {
     Object.freeze(state);
     switch (action.type) {
         case RECEIVE_STANDINGS:
-        const standings = action.standings;
-        return merge({}, nullStandings, action.standings)
-    }
-}
+            const standings = action.standings;
+            return merge({}, nullStandings, action.standings);
+        default:
+            return state;
+    };
+};
+
+export default StandingsReducer;

@@ -1,4 +1,5 @@
 import React from "react";
+import NBARankingContainer from '../ranking/nba_ranking_container';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class HomePage extends React.Component {
                 </div>
                 <div className="rankings">
                     <div className="nba-ranking">
-                        nba-ranking
+                        <NBARankingContainer />
                     </div>
                     <div className="player-ranking">
                         player-ranking

@@ -4307,6 +4307,8 @@ var _root = __webpack_require__(182);
 
 var _root2 = _interopRequireDefault(_root);
 
+var _standings_actions = __webpack_require__(223);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -4318,7 +4320,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         store = (0, _store2.default)();
     }
-
+    window.store = store;
+    window.receiveStandings = _standings_actions.receiveStandings;
     var root = document.getElementById("root");
     _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 });
@@ -25108,10 +25111,15 @@ var _session_reducer = __webpack_require__(112);
 
 var _session_reducer2 = _interopRequireDefault(_session_reducer);
 
+var _standings_reducer = __webpack_require__(222);
+
+var _standings_reducer2 = _interopRequireDefault(_standings_reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RootReducer = (0, _redux.combineReducers)({
-    session: _session_reducer2.default
+    session: _session_reducer2.default,
+    standings: _standings_reducer2.default
 });
 
 exports.default = RootReducer;
@@ -31133,6 +31141,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _nba_ranking_container = __webpack_require__(225);
+
+var _nba_ranking_container2 = _interopRequireDefault(_nba_ranking_container);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31167,7 +31179,7 @@ var HomePage = function (_React$Component) {
                     _react2.default.createElement(
                         "div",
                         { className: "nba-ranking" },
-                        "nba-ranking"
+                        _react2.default.createElement(_nba_ranking_container2.default, null)
                     ),
                     _react2.default.createElement(
                         "div",
@@ -31183,6 +31195,748 @@ var HomePage = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = HomePage;
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _merge = __webpack_require__(113);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _standings_actions = __webpack_require__(223);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var nullStandings = Object.freeze({
+    east: [],
+    west: []
+});
+
+var StandingsReducer = function StandingsReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : nullStandings;
+    var action = arguments[1];
+
+    Object.freeze(state);
+    switch (action.type) {
+        case _standings_actions.RECEIVE_STANDINGS:
+            var standings = action.standings;
+            return (0, _merge2.default)({}, nullStandings, action.standings);
+        default:
+            return state;
+    };
+};
+
+exports.default = StandingsReducer;
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fetchStandings = exports.receiveStandings = exports.RECEIVE_STANDINGS = undefined;
+
+var _nba_api_util = __webpack_require__(224);
+
+var APIUtil = _interopRequireWildcard(_nba_api_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var RECEIVE_STANDINGS = exports.RECEIVE_STANDINGS = "RECEIVE_STANDINGS";
+
+var receiveStandings = exports.receiveStandings = function receiveStandings(standings) {
+    return {
+        type: RECEIVE_STANDINGS,
+        standings: standings
+    };
+};
+
+var fetchStandings = exports.fetchStandings = function fetchStandings() {
+    return function (dispatch) {
+        return APIUtil.getStandings().then(function (standings) {
+            return dispatch(receiveStandings(standings));
+        });
+    };
+};
+
+/***/ }),
+/* 224 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getTeams = exports.getTeams = function getTeams() {
+    return $.ajax({
+        method: "GET",
+        url: "api/nba_records/teams"
+    });
+};
+
+var getStandings = exports.getStandings = function getStandings() {
+    return $.ajax({
+        method: "GET",
+        url: "/api/nba_records/standings"
+    });
+};
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRedux = __webpack_require__(64);
+
+var _nba_ranking = __webpack_require__(226);
+
+var _nba_ranking2 = _interopRequireDefault(_nba_ranking);
+
+var _standings_actions = __webpack_require__(223);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        standings: state.standings
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        fetchStandings: function fetchStandings() {
+            return dispatch((0, _standings_actions.fetchStandings)());
+        }
+    };
+};
+
+var NBARankingContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_nba_ranking2.default);
+
+exports.default = NBARankingContainer;
+
+/***/ }),
+/* 226 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _team_rank = __webpack_require__(227);
+
+var _team_rank2 = _interopRequireDefault(_team_rank);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NBARankings = function (_React$Component) {
+    _inherits(NBARankings, _React$Component);
+
+    function NBARankings(props) {
+        _classCallCheck(this, NBARankings);
+
+        return _possibleConstructorReturn(this, (NBARankings.__proto__ || Object.getPrototypeOf(NBARankings)).call(this, props));
+    }
+
+    _createClass(NBARankings, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.props.fetchStandings();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var standings = this.props.standings;
+
+            var eastRank = standings.east.map(function (team) {
+                return _react2.default.createElement(_team_rank2.default, {
+                    key: team.teamId,
+                    teamId: team.teamId,
+                    wins: team.win,
+                    losses: team.loss,
+                    winPct: team.winPct
+                });
+            });
+            var westRank = standings.west.map(function (team) {
+                return _react2.default.createElement(_team_rank2.default, {
+                    key: team.teamId,
+                    teamId: team.teamId,
+                    wins: team.win,
+                    losses: team.loss,
+                    winPct: team.winPct
+                });
+            });
+            return _react2.default.createElement(
+                'div',
+                { className: 'conference-ranking' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'eastern-conference' },
+                    eastRank.length > 0 ? eastRank : ""
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'western-conference' },
+                    westRank.length > 0 ? westRank : ""
+                )
+            );
+        }
+    }]);
+
+    return NBARankings;
+}(_react2.default.Component);
+
+exports.default = NBARankings;
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _nba_teams = __webpack_require__(228);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TeamRank = function (_React$Component) {
+    _inherits(TeamRank, _React$Component);
+
+    function TeamRank(props) {
+        _classCallCheck(this, TeamRank);
+
+        return _possibleConstructorReturn(this, (TeamRank.__proto__ || Object.getPrototypeOf(TeamRank)).call(this, props));
+    }
+
+    _createClass(TeamRank, [{
+        key: 'render',
+        value: function render() {
+            function getTeamName(teamId) {
+                var result = void 0;
+                for (var i = 0; i < _nba_teams.NBATEAMS.length; i++) {
+                    if (teamId === _nba_teams.NBATEAMS[i].teamId) {
+                        result = _nba_teams.NBATEAMS[i].fullName;
+                        return result;
+                    }
+                }
+            }
+            var _props = this.props,
+                teamId = _props.teamId,
+                wins = _props.wins,
+                losses = _props.losses,
+                winPct = _props.winPct;
+
+            var teamName = getTeamName(teamId);
+            return _react2.default.createElement(
+                'div',
+                null,
+                teamName,
+                ' Wins: ',
+                wins,
+                ' Losses: ',
+                losses
+            );
+        }
+    }]);
+
+    return TeamRank;
+}(_react2.default.Component);
+
+exports.default = TeamRank;
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var NBATEAMS = exports.NBATEAMS = [{
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Atlanta",
+    "altCityName": "Atlanta",
+    "fullName": "Atlanta Hawks",
+    "tricode": "ATL",
+    "teamId": "1610612737",
+    "nickname": "Hawks",
+    "urlName": "hawks",
+    "confName": "East",
+    "divName": "Southeast"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Boston",
+    "altCityName": "Boston",
+    "fullName": "Boston Celtics",
+    "tricode": "BOS",
+    "teamId": "1610612738",
+    "nickname": "Celtics",
+    "urlName": "celtics",
+    "confName": "East",
+    "divName": "Atlantic"
+}, {
+    "isNBAFranchise": false,
+    "isAllStar": false,
+    "city": "Brisbane",
+    "altCityName": "Brisbane",
+    "fullName": "Brisbane Bullets",
+    "tricode": "BNE",
+    "teamId": "15017",
+    "nickname": "Bullets",
+    "urlName": "bullets",
+    "confName": "Intl",
+    "divName": ""
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Brooklyn",
+    "altCityName": "Brooklyn",
+    "fullName": "Brooklyn Nets",
+    "tricode": "BKN",
+    "teamId": "1610612751",
+    "nickname": "Nets",
+    "urlName": "nets",
+    "confName": "East",
+    "divName": "Atlantic"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Charlotte",
+    "altCityName": "Charlotte",
+    "fullName": "Charlotte Hornets",
+    "tricode": "CHA",
+    "teamId": "1610612766",
+    "nickname": "Hornets",
+    "urlName": "hornets",
+    "confName": "East",
+    "divName": "Southeast"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Chicago",
+    "altCityName": "Chicago",
+    "fullName": "Chicago Bulls",
+    "tricode": "CHI",
+    "teamId": "1610612741",
+    "nickname": "Bulls",
+    "urlName": "bulls",
+    "confName": "East",
+    "divName": "Central"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Cleveland",
+    "altCityName": "Cleveland",
+    "fullName": "Cleveland Cavaliers",
+    "tricode": "CLE",
+    "teamId": "1610612739",
+    "nickname": "Cavaliers",
+    "urlName": "cavaliers",
+    "confName": "East",
+    "divName": "Central"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Dallas",
+    "altCityName": "Dallas",
+    "fullName": "Dallas Mavericks",
+    "tricode": "DAL",
+    "teamId": "1610612742",
+    "nickname": "Mavericks",
+    "urlName": "mavericks",
+    "confName": "West",
+    "divName": "Southwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Denver",
+    "altCityName": "Denver",
+    "fullName": "Denver Nuggets",
+    "tricode": "DEN",
+    "teamId": "1610612743",
+    "nickname": "Nuggets",
+    "urlName": "nuggets",
+    "confName": "West",
+    "divName": "Northwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Detroit",
+    "altCityName": "Detroit",
+    "fullName": "Detroit Pistons",
+    "tricode": "DET",
+    "teamId": "1610612765",
+    "nickname": "Pistons",
+    "urlName": "pistons",
+    "confName": "East",
+    "divName": "Central"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Golden State",
+    "altCityName": "Golden State",
+    "fullName": "Golden State Warriors",
+    "tricode": "GSW",
+    "teamId": "1610612744",
+    "nickname": "Warriors",
+    "urlName": "warriors",
+    "confName": "West",
+    "divName": "Pacific"
+}, {
+    "isNBAFranchise": false,
+    "isAllStar": false,
+    "city": "Guangzhou",
+    "altCityName": "Guangzhou",
+    "fullName": "Guangzhou Long-Lions",
+    "tricode": "GUA",
+    "teamId": "15018",
+    "nickname": "Long-Lions",
+    "urlName": "long-lions",
+    "confName": "Intl",
+    "divName": ""
+}, {
+    "isNBAFranchise": false,
+    "isAllStar": false,
+    "city": "Haifa",
+    "altCityName": "Haifa",
+    "fullName": "Maccabi Haifa",
+    "tricode": "MAC",
+    "teamId": "93",
+    "nickname": "Maccabi Haifa",
+    "urlName": "maccabi_haifa",
+    "confName": "Intl",
+    "divName": ""
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Houston",
+    "altCityName": "Houston",
+    "fullName": "Houston Rockets",
+    "tricode": "HOU",
+    "teamId": "1610612745",
+    "nickname": "Rockets",
+    "urlName": "rockets",
+    "confName": "West",
+    "divName": "Southwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Indiana",
+    "altCityName": "Indiana",
+    "fullName": "Indiana Pacers",
+    "tricode": "IND",
+    "teamId": "1610612754",
+    "nickname": "Pacers",
+    "urlName": "pacers",
+    "confName": "East",
+    "divName": "Central"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "LA",
+    "altCityName": "LA Clippers",
+    "fullName": "LA Clippers",
+    "tricode": "LAC",
+    "teamId": "1610612746",
+    "nickname": "Clippers",
+    "urlName": "clippers",
+    "confName": "West",
+    "divName": "Pacific"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Los Angeles",
+    "altCityName": "Los Angeles Lakers",
+    "fullName": "Los Angeles Lakers",
+    "tricode": "LAL",
+    "teamId": "1610612747",
+    "nickname": "Lakers",
+    "urlName": "lakers",
+    "confName": "West",
+    "divName": "Pacific"
+}, {
+    "isNBAFranchise": false,
+    "isAllStar": false,
+    "city": "Melbourne",
+    "altCityName": "Melbourne",
+    "fullName": "Melbourne United",
+    "tricode": "MEL",
+    "teamId": "15016",
+    "nickname": "United",
+    "urlName": "united",
+    "confName": "Intl",
+    "divName": ""
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Memphis",
+    "altCityName": "Memphis",
+    "fullName": "Memphis Grizzlies",
+    "tricode": "MEM",
+    "teamId": "1610612763",
+    "nickname": "Grizzlies",
+    "urlName": "grizzlies",
+    "confName": "West",
+    "divName": "Southwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Miami",
+    "altCityName": "Miami",
+    "fullName": "Miami Heat",
+    "tricode": "MIA",
+    "teamId": "1610612748",
+    "nickname": "Heat",
+    "urlName": "heat",
+    "confName": "East",
+    "divName": "Southeast"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Milwaukee",
+    "altCityName": "Milwaukee",
+    "fullName": "Milwaukee Bucks",
+    "tricode": "MIL",
+    "teamId": "1610612749",
+    "nickname": "Bucks",
+    "urlName": "bucks",
+    "confName": "East",
+    "divName": "Central"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Minnesota",
+    "altCityName": "Minnesota",
+    "fullName": "Minnesota Timberwolves",
+    "tricode": "MIN",
+    "teamId": "1610612750",
+    "nickname": "Timberwolves",
+    "urlName": "timberwolves",
+    "confName": "West",
+    "divName": "Northwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "New Orleans",
+    "altCityName": "New Orleans",
+    "fullName": "New Orleans Pelicans",
+    "tricode": "NOP",
+    "teamId": "1610612740",
+    "nickname": "Pelicans",
+    "urlName": "pelicans",
+    "confName": "West",
+    "divName": "Southwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "New York",
+    "altCityName": "New York",
+    "fullName": "New York Knicks",
+    "tricode": "NYK",
+    "teamId": "1610612752",
+    "nickname": "Knicks",
+    "urlName": "knicks",
+    "confName": "East",
+    "divName": "Atlantic"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Oklahoma City",
+    "altCityName": "Oklahoma City",
+    "fullName": "Oklahoma City Thunder",
+    "tricode": "OKC",
+    "teamId": "1610612760",
+    "nickname": "Thunder",
+    "urlName": "thunder",
+    "confName": "West",
+    "divName": "Northwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Orlando",
+    "altCityName": "Orlando",
+    "fullName": "Orlando Magic",
+    "tricode": "ORL",
+    "teamId": "1610612753",
+    "nickname": "Magic",
+    "urlName": "magic",
+    "confName": "East",
+    "divName": "Southeast"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Philadelphia",
+    "altCityName": "Philadelphia",
+    "fullName": "Philadelphia 76ers",
+    "tricode": "PHI",
+    "teamId": "1610612755",
+    "nickname": "76ers",
+    "urlName": "sixers",
+    "confName": "East",
+    "divName": "Atlantic"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Phoenix",
+    "altCityName": "Phoenix",
+    "fullName": "Phoenix Suns",
+    "tricode": "PHX",
+    "teamId": "1610612756",
+    "nickname": "Suns",
+    "urlName": "suns",
+    "confName": "West",
+    "divName": "Pacific"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Portland",
+    "altCityName": "Portland",
+    "fullName": "Portland Trail Blazers",
+    "tricode": "POR",
+    "teamId": "1610612757",
+    "nickname": "Trail Blazers",
+    "urlName": "blazers",
+    "confName": "West",
+    "divName": "Northwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Sacramento",
+    "altCityName": "Sacramento",
+    "fullName": "Sacramento Kings",
+    "tricode": "SAC",
+    "teamId": "1610612758",
+    "nickname": "Kings",
+    "urlName": "kings",
+    "confName": "West",
+    "divName": "Pacific"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "San Antonio",
+    "altCityName": "San Antonio",
+    "fullName": "San Antonio Spurs",
+    "tricode": "SAS",
+    "teamId": "1610612759",
+    "nickname": "Spurs",
+    "urlName": "spurs",
+    "confName": "West",
+    "divName": "Southwest"
+}, {
+    "isNBAFranchise": false,
+    "isAllStar": false,
+    "city": "Shanghai",
+    "altCityName": "Shanghai",
+    "fullName": "Shanghai Sharks",
+    "tricode": "SDS",
+    "teamId": "12329",
+    "nickname": "Shanghai Sharks",
+    "urlName": "shanghai_sharks",
+    "confName": "Intl",
+    "divName": ""
+}, {
+    "isNBAFranchise": false,
+    "isAllStar": false,
+    "city": "Sydney",
+    "altCityName": "Sydney",
+    "fullName": "Sydney Kings",
+    "tricode": "SYD",
+    "teamId": "15015",
+    "nickname": "Kings",
+    "urlName": "kings",
+    "confName": "Intl",
+    "divName": ""
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Toronto",
+    "altCityName": "Toronto",
+    "fullName": "Toronto Raptors",
+    "tricode": "TOR",
+    "teamId": "1610612761",
+    "nickname": "Raptors",
+    "urlName": "raptors",
+    "confName": "East",
+    "divName": "Atlantic"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Utah",
+    "altCityName": "Utah",
+    "fullName": "Utah Jazz",
+    "tricode": "UTA",
+    "teamId": "1610612762",
+    "nickname": "Jazz",
+    "urlName": "jazz",
+    "confName": "West",
+    "divName": "Northwest"
+}, {
+    "isNBAFranchise": true,
+    "isAllStar": false,
+    "city": "Washington",
+    "altCityName": "Washington",
+    "fullName": "Washington Wizards",
+    "tricode": "WAS",
+    "teamId": "1610612764",
+    "nickname": "Wizards",
+    "urlName": "wizards",
+    "confName": "East",
+    "divName": "Southeast"
+}];
 
 /***/ })
 /******/ ]);
