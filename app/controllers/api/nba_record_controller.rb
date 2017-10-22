@@ -10,17 +10,19 @@ class Api::NbaRecordController < ApplicationController
 
     def teams
         team_link = @links["teams"]
-        teams = JSON.pars("#{Net::HTTP.get(URI("http://data.nba.net#{team_link}"))}")
-        parsed_teams = teams["league"]
+        teams = JSON.parse("#{Net::HTTP.get(URI("http://data.nba.net#{team_link}"))}")
+        parsed_teams = teams["league"]["standard"]
         render(
             json: parsed_teams
         )
     end
     
     def standings
-        standings = @links["leagueConfStandings"]
+        standings_link = @links["leagueConfStandings"]
+        standings = JSON.parse("#{Net::HTTP.get(URI("http://data.nba.net#{standings_link}"))}")
+        parsed_standings = standings["league"]["standard"]["conference"]
         render(
-            json: Net::HTTP.get(URI("http://data.nba.net#{standings}"))
+            json: parsed_standings
         )
     end
 end
