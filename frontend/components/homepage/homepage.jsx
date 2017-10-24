@@ -1,9 +1,13 @@
 import React from "react";
-import NBARankingContainer from '../ranking/nba_ranking_container';
+import NBARankings from '../ranking/nba_rankings';
 
 class HomePage extends React.Component {
     constructor(props) {
         super(props)
+    }
+
+    componentDidMount() {
+        this.props.fetchStandings();
     }
 
     render() {
@@ -14,7 +18,7 @@ class HomePage extends React.Component {
                 </div>
                 <div className="rankings">
                     <div className="nba-ranking">
-                        <NBARankingContainer />
+                        {/* <NBARankings /> */}
                     </div>
                     <div className="player-ranking">
                         player-ranking

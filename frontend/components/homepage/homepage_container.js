@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import NBARanking from './nba_ranking';
+import HomePage from './homepage';
 
 import { fetchStandings } from '../../actions/standings_actions';
 
@@ -11,9 +11,9 @@ const mapDispatchToProps = dispatch => ({
     fetchStandings: () => dispatch(fetchStandings())
 });
 
-const NBARankingContainer = connect(
+const HomePageContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(NBARanking);
+)(HomePage);
 
-export default NBARankingContainer;
+export default HomePageContainer;

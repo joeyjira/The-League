@@ -6,10 +6,6 @@ class NBARankings extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.fetchStandings();
-    }
-
     render() {
         const { standings } = this.props;
         const eastRank = standings.east.map(team =>
