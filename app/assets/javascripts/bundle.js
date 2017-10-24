@@ -31308,6 +31308,8 @@ var HomePage = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
+            var standings = this.props.standings;
+
             return _react2.default.createElement(
                 "div",
                 { className: "landing-section" },
@@ -31319,7 +31321,13 @@ var HomePage = function (_React$Component) {
                 _react2.default.createElement(
                     "div",
                     { className: "rankings" },
-                    _react2.default.createElement("div", { className: "nba-ranking" }),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "nba-ranking" },
+                        _react2.default.createElement(_nba_rankings2.default, {
+                            standings: standings
+                        })
+                    ),
                     _react2.default.createElement(
                         "div",
                         { className: "player-ranking" },
@@ -31378,15 +31386,7 @@ var NBARankings = function (_React$Component) {
         value: function render() {
             var standings = this.props.standings;
 
-            var eastRank = standings.east.map(function (team) {
-                return _react2.default.createElement(_team_rank2.default, {
-                    key: team.teamId,
-                    teamId: team.teamId,
-                    wins: team.win,
-                    losses: team.loss,
-                    winPct: team.winPct
-                });
-            });
+
             var westRank = standings.west.map(function (team) {
                 return _react2.default.createElement(_team_rank2.default, {
                     key: team.teamId,
@@ -31396,18 +31396,29 @@ var NBARankings = function (_React$Component) {
                     winPct: team.winPct
                 });
             });
+
+            var eastRank = standings.east.map(function (team) {
+                return _react2.default.createElement(_team_rank2.default, {
+                    key: team.teamId,
+                    teamId: team.teamId,
+                    wins: team.win,
+                    losses: team.loss,
+                    winPct: team.winPct
+                });
+            });
+
             return _react2.default.createElement(
                 'div',
                 { className: 'conference-ranking' },
                 _react2.default.createElement(
                     'div',
                     { className: 'eastern-conference' },
-                    eastRank.length > 0 ? eastRank : ""
+                    westRank.length > 0 ? westRank : ""
                 ),
                 _react2.default.createElement(
                     'div',
                     { className: 'western-conference' },
-                    westRank.length > 0 ? westRank : ""
+                    eastRank.length > 0 ? eastRank : ""
                 )
             );
         }
@@ -31471,7 +31482,7 @@ var TeamRank = function (_React$Component) {
                 winPct = _props.winPct;
 
             var teamName = getTeamName(teamId);
-            console.log(teamName);
+
             return _react2.default.createElement(
                 'div',
                 null,

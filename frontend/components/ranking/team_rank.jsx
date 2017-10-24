@@ -16,7 +16,7 @@ class TeamRank extends React.Component {
         }
         const { teamId, wins, losses, winPct } = this.props
         const teamName = getTeamName(teamId);
-        console.log(teamName);
+
         return(
             <div>
                 { teamName } Wins: { wins } Losses: { losses }

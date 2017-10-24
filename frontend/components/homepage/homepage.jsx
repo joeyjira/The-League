@@ -11,6 +11,7 @@ class HomePage extends React.Component {
     }
 
     render() {
+        const { standings } = this.props;
         return(
             <div className="landing-section">
                 <div className="match-of-the-day">
@@ -18,7 +19,9 @@ class HomePage extends React.Component {
                 </div>
                 <div className="rankings">
                     <div className="nba-ranking">
-                        {/* <NBARankings /> */}
+                        <NBARankings 
+                            standings={standings}
+                        />
                     </div>
                     <div className="player-ranking">
                         player-ranking
