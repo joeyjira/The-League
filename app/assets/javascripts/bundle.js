@@ -31283,6 +31283,10 @@ var _nba_rankings = __webpack_require__(226);
 
 var _nba_rankings2 = _interopRequireDefault(_nba_rankings);
 
+var _player_rankings = __webpack_require__(229);
+
+var _player_rankings2 = _interopRequireDefault(_player_rankings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31301,37 +31305,39 @@ var HomePage = function (_React$Component) {
     }
 
     _createClass(HomePage, [{
-        key: "componentDidMount",
+        key: 'componentDidMount',
         value: function componentDidMount() {
             this.props.fetchStandings();
         }
     }, {
-        key: "render",
+        key: 'render',
         value: function render() {
             var standings = this.props.standings;
 
             return _react2.default.createElement(
-                "div",
-                { className: "landing-section" },
+                'div',
+                { className: 'landing-section' },
                 _react2.default.createElement(
-                    "div",
-                    { className: "match-of-the-day" },
-                    "match-of-the-day"
+                    'div',
+                    { className: 'match-of-the-day' },
+                    'match-of-the-day'
                 ),
                 _react2.default.createElement(
-                    "div",
-                    { className: "rankings" },
+                    'div',
+                    { className: 'rankings' },
                     _react2.default.createElement(
-                        "div",
-                        { className: "nba-ranking" },
+                        'div',
+                        { className: 'nba-ranking' },
                         _react2.default.createElement(_nba_rankings2.default, {
                             standings: standings
                         })
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { className: "player-ranking" },
-                        "player-ranking"
+                        'div',
+                        { className: 'player-ranking' },
+                        _react2.default.createElement(_player_rankings2.default, {
+                            standings: standings
+                        })
                     )
                 )
             );
@@ -31942,6 +31948,217 @@ var NBATEAMS = exports.NBATEAMS = [{
     "urlName": "wizards",
     "confName": "East",
     "divName": "Southeast"
+}];
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _player_rank = __webpack_require__(230);
+
+var _player_rank2 = _interopRequireDefault(_player_rank);
+
+var _player_draft = __webpack_require__(231);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PlayerRankings = function (_React$Component) {
+    _inherits(PlayerRankings, _React$Component);
+
+    function PlayerRankings(props) {
+        _classCallCheck(this, PlayerRankings);
+
+        return _possibleConstructorReturn(this, (PlayerRankings.__proto__ || Object.getPrototypeOf(PlayerRankings)).call(this, props));
+    }
+
+    _createClass(PlayerRankings, [{
+        key: 'render',
+        value: function render() {
+            var standings = this.props.standings;
+
+
+            function getPlayerStandings() {
+                var playerStandings = [];
+                var eastScore = 0;
+                var westScore = 0;
+                if (standings.east.length !== 0) {
+                    for (var i = 0; i < _player_draft.PLAYERDRAFT.length; i++) {
+                        for (var j = 0; j < _player_draft.PLAYERDRAFT[i].RANK.EAST.length; j++) {
+                            if (_player_draft.PLAYERDRAFT[i].RANK.EAST[j] === standings.east[j].teamId) {
+                                eastScore++;
+                            }
+                        }
+                        for (var _j = 0; _j < _player_draft.PLAYERDRAFT[i].RANK.WEST.length; _j++) {
+                            if (_player_draft.PLAYERDRAFT[i].RANK.WEST[_j] === standings.west[_j].teamId) {
+                                westScore++;
+                            }
+                        }
+                        playerStandings.push({
+                            name: _player_draft.PLAYERDRAFT[i].NAME,
+                            eastPoints: eastScore,
+                            westPoints: westScore,
+                            totalScore: eastScore + westScore
+                        });
+                        eastScore = 0;
+                        westScore = 0;
+                    }
+                }
+                return playerStandings;
+            }
+
+            var playerStandings = getPlayerStandings();
+            console.log(playerStandings);
+            // const playerRank = PLAYERDRAFT.map(player =>
+            //     <PlayerRank 
+            //         key={player.NAME}
+            //         name={player.NAME}
+            //         rank={player.RANK}
+            //         west={standings.west}
+            //         east={standings.east}
+            //     />
+            // );
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'conference-ranking' },
+                _react2.default.createElement('div', { className: 'player-rank' })
+            );
+        }
+    }]);
+
+    return PlayerRankings;
+}(_react2.default.Component);
+
+exports.default = PlayerRankings;
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PlayerRank = function (_React$Component) {
+    _inherits(PlayerRank, _React$Component);
+
+    function PlayerRank(props) {
+        _classCallCheck(this, PlayerRank);
+
+        return _possibleConstructorReturn(this, (PlayerRank.__proto__ || Object.getPrototypeOf(PlayerRank)).call(this, props));
+    }
+
+    _createClass(PlayerRank, [{
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                name = _props.name,
+                rank = _props.rank,
+                west = _props.west,
+                east = _props.east;
+
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                'HELLO'
+            );
+        }
+    }]);
+
+    return PlayerRank;
+}(_react2.default.Component);
+
+exports.default = PlayerRank;
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var PLAYERDRAFT = exports.PLAYERDRAFT = [{
+    NAME: "Joey Jirasevijinda",
+    RANK: {
+        EAST: ["1610612738", "1610612739", "1610612761", "1610612749", "1610612764", "1610612748", "1610612755", "1610612766", "1610612765", "1610612753", "1610612752", "1610612754", "1610612737", "1610612751", "1610612741"],
+        WEST: ["1610612759", "1610612744", "1610612760", "1610612745", "1610612750", "1610612757", "1610612740", "1610612763", "1610612743", "1610612746", "1610612742", "1610612762", "1610612747", "1610612758", "1610612756"]
+    }
+}, {
+    NAME: "Kevin Lam",
+    RANK: {
+        EAST: ["1610612739", "1610612738", "1610612737", "1610612764", "1610612741", "1610612754", "1610612753", "1610612751", "1610612766", "1610612748", "1610612765", "1610612752", "1610612755", "1610612761", "1610612749"],
+        WEST: ["1610612744", "1610612745", "1610612760", "1610612759", "1610612750", "1610612758", "1610612743", "1610612746", "1610612740", "1610612747", "1610612763", "1610612756", "1610612757", "1610612762", "1610612742"]
+    }
+}, {
+    NAME: "Michael Lau",
+    RANK: {
+        EAST: ["1610612739", "1610612738", "1610612764", "1610612761", "1610612749", "1610612737", "1610612755", "1610612765", "1610612754", "1610612766", "1610612748", "1610612752", "1610612753", "1610612741", "1610612751"],
+        WEST: ["1610612744", "1610612745", "1610612759", "1610612760", "1610612757", "1610612750", "1610612743", "1610612746", "1610612763", "1610612740", "1610612762", "1610612742", "1610612747", "1610612758", "1610612756"]
+    }
+}, {
+    NAME: "Michael 'The Jizz' Vu",
+    RANK: {
+        EAST: ["1610612739", "1610612738", "1610612737", "1610612761", "1610612765", "1610612764", "1610612754", "1610612748", "1610612766", "1610612749", "1610612741", "1610612753", "1610612755", "1610612752", "1610612751"],
+        WEST: ["1610612744", "1610612760", "1610612745", "1610612740", "1610612747", "1610612759", "1610612757", "1610612746", "1610612750", "1610612742", "1610612763", "1610612743", "1610612758", "1610612756", "1610612762"]
+    }
+}, {
+    NAME: "Ryan Nguyen",
+    RANK: {
+        EAST: ["1610612739", "1610612764", "1610612761", "1610612738", "1610612749", "1610612748", "1610612766", "1610612755", "1610612765", "1610612753", "1610612754", "1610612752", "1610612751", "1610612737", "1610612741"],
+        WEST: ["1610612744", "1610612759", "1610612745", "1610612760", "1610612750", "1610612757", "1610612743", "1610612746", "1610612762", "1610612763", "1610612740", "1610612742", "1610612747", "1610612758", "1610612756"]
+    }
+}, {
+    NAME: "Scott Louie",
+    RANK: {
+        EAST: ["1610612739", "1610612764", "1610612761", "1610612749", "1610612748", "1610612738", "1610612755", "1610612766", "1610612765", "1610612754", "1610612751", "1610612752", "1610612753", "1610612737", "1610612741"],
+        WEST: ["1610612744", "1610612745", "1610612759", "1610612760", "1610612750", "1610612746", "1610612743", "1610612762", "1610612763", "1610612757", "1610612747", "1610612740", "1610612758", "1610612742", "1610612756"]
+    }
+}, {
+    NAME: "Vince Ly",
+    RANK: {
+        EAST: ["1610612739", "1610612738", "1610612741", "1610612748", "1610612752", "1610612755", "1610612749", "1610612737", "1610612766", "1610612753", "1610612751", "1610612765", "1610612754", "1610612761", "1610612764"],
+        WEST: ["1610612744", "1610612759", "1610612742", "1610612740", "1610612746", "1610612743", "1610612763", "1610612762", "1610612757", "1610612745", "1610612760", "1610612750", "1610612747", "1610612758", "1610612756"]
+    }
 }];
 
 /***/ })
