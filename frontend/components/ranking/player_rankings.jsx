@@ -37,25 +37,27 @@ class PlayerRankings extends React.Component {
                     westScore = 0;
                 }
             }
-            return playerStandings;
+            return playerStandings.sort((a, b) => {
+                return b.totalScore - a.totalScore
+            })
         }
 
         const playerStandings = getPlayerStandings();
-        console.log(playerStandings)
-        // const playerRank = PLAYERDRAFT.map(player =>
-        //     <PlayerRank 
-        //         key={player.NAME}
-        //         name={player.NAME}
-        //         rank={player.RANK}
-        //         west={standings.west}
-        //         east={standings.east}
-        //     />
-        // );
+
+        const playerRank = playerStandings.map(player =>
+            <PlayerRank 
+                key={player.name}
+                name={player.name}
+                total={player.totalScore}
+                west={player.westPoints}
+                east={player.eastPoints}
+            />
+        );
 
         return (
             <div className="conference-ranking">
                 <div className="player-rank">
-
+                    {playerRank}
                 </div>
             </div>
         )

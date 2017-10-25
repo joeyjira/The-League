@@ -32022,25 +32022,31 @@ var PlayerRankings = function (_React$Component) {
                         westScore = 0;
                     }
                 }
-                return playerStandings;
+                return playerStandings.sort(function (a, b) {
+                    return b.totalScore - a.totalScore;
+                });
             }
 
             var playerStandings = getPlayerStandings();
-            console.log(playerStandings);
-            // const playerRank = PLAYERDRAFT.map(player =>
-            //     <PlayerRank 
-            //         key={player.NAME}
-            //         name={player.NAME}
-            //         rank={player.RANK}
-            //         west={standings.west}
-            //         east={standings.east}
-            //     />
-            // );
+
+            var playerRank = playerStandings.map(function (player) {
+                return _react2.default.createElement(_player_rank2.default, {
+                    key: player.name,
+                    name: player.name,
+                    total: player.totalScore,
+                    west: player.westPoints,
+                    east: player.eastPoints
+                });
+            });
 
             return _react2.default.createElement(
                 'div',
                 { className: 'conference-ranking' },
-                _react2.default.createElement('div', { className: 'player-rank' })
+                _react2.default.createElement(
+                    'div',
+                    { className: 'player-rank' },
+                    playerRank
+                )
             );
         }
     }]);
@@ -32089,7 +32095,7 @@ var PlayerRank = function (_React$Component) {
         value: function render() {
             var _props = this.props,
                 name = _props.name,
-                rank = _props.rank,
+                total = _props.total,
                 west = _props.west,
                 east = _props.east;
 
@@ -32097,7 +32103,9 @@ var PlayerRank = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                'HELLO'
+                name,
+                ': ',
+                total
             );
         }
     }]);

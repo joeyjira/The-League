@@ -6,11 +6,11 @@ class PlayerRank extends React.Component {
     }
 
     render() {
-        const { name, rank, west, east } = this.props
+        const { name, total, west, east } = this.props
 
         return (
             <div>
-                HELLO
+                {name}: {total}
             </div>
         )
     }
