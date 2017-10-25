@@ -19,7 +19,7 @@ class TeamRank extends React.Component {
 
         return(
             <div>
-                { teamName } Wins: { wins } Losses: { losses }
+                { teamName }    { wins }-{ losses }
             </div>
         )
     }

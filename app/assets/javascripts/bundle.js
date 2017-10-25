@@ -31493,9 +31493,9 @@ var TeamRank = function (_React$Component) {
                 'div',
                 null,
                 teamName,
-                ' Wins: ',
+                '    ',
                 wins,
-                ' Losses: ',
+                '-',
                 losses
             );
         }

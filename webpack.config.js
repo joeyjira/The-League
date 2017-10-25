@@ -23,7 +23,7 @@ plugins = plugins.concat(
 
 module.exports = {
     context: __dirname,
-    entry: "./frontend/smash_up.jsx",
+    entry: "./frontend/the_league.jsx",
     output: {
         path: path.join(__dirname, 'app', 'assets', 'javascripts'),
         filename: "bundle.js"
