@@ -32000,16 +32000,20 @@ var PlayerRankings = function (_React$Component) {
                 var playerStandings = [];
                 var eastScore = 0;
                 var westScore = 0;
+                var eastCorrect = [];
+                var westCorrect = [];
                 if (standings.east.length !== 0) {
                     for (var i = 0; i < _player_draft.PLAYERDRAFT.length; i++) {
                         for (var j = 0; j < _player_draft.PLAYERDRAFT[i].RANK.EAST.length; j++) {
                             if (_player_draft.PLAYERDRAFT[i].RANK.EAST[j] === standings.east[j].teamId) {
                                 eastScore++;
+                                eastCorrect.push(_player_draft.PLAYERDRAFT[i].RANK.EAST[j]);
                             }
                         }
                         for (var _j = 0; _j < _player_draft.PLAYERDRAFT[i].RANK.WEST.length; _j++) {
                             if (_player_draft.PLAYERDRAFT[i].RANK.WEST[_j] === standings.west[_j].teamId) {
                                 westScore++;
+                                westCorrect.push(_player_draft.PLAYERDRAFT[i].RANK.WEST[_j]);
                             }
                         }
                         playerStandings.push({

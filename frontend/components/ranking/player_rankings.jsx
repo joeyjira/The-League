@@ -15,16 +15,20 @@ class PlayerRankings extends React.Component {
             let playerStandings = [];
             let eastScore = 0;
             let westScore = 0;
+            let eastCorrect = [];
+            let westCorrect = [];
             if (standings.east.length !== 0) {
                 for (let i = 0; i < PLAYERDRAFT.length; i++) {
                     for (let j = 0; j < PLAYERDRAFT[i].RANK.EAST.length; j++) {
                         if (PLAYERDRAFT[i].RANK.EAST[j] === standings.east[j].teamId) {
                             eastScore++;
+                            eastCorrect.push(PLAYERDRAFT[i].RANK.EAST[j]);
                         }
                     }
                     for (let j = 0; j < PLAYERDRAFT[i].RANK.WEST.length; j++) {
                         if (PLAYERDRAFT[i].RANK.WEST[j] === standings.west[j].teamId) {
                             westScore++;
+                            westCorrect.push(PLAYERDRAFT[i].RANK.WEST[j]);
                         }
                     }
                     playerStandings.push({
