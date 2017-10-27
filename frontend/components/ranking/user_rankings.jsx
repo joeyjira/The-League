@@ -60,7 +60,7 @@ class UserRankings extends React.Component {
 
         return (
             <div className="conference-ranking">
-                <div className="user-rank">
+                <div className="user-rankings">
                     {userRank}
                 </div>
             </div>

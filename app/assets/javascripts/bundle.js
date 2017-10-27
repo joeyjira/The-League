@@ -32048,7 +32048,7 @@ var UserRankings = function (_React$Component) {
                 { className: 'conference-ranking' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'user-rank' },
+                    { className: 'user-rankings' },
                     userRank
                 )
             );
@@ -32106,7 +32106,7 @@ var UserRank = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'individual-user' },
+                { className: 'user-rank' },
                 name,
                 ': ',
                 total

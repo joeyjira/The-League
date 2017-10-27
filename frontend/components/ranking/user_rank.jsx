@@ -9,7 +9,7 @@ class UserRank extends React.Component {
         const { name, total, west, east } = this.props
 
         return (
-            <div className='individual-user'>
+            <div className='user-rank'>
                 {name}: {total}
             </div>
         )
