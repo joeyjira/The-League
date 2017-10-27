@@ -1,4 +1,4 @@
-export const PLAYERDRAFT = [
+export const USERDRAFT = [
     {
         NAME: "Joey Jirasevijinda",
         RANK: {

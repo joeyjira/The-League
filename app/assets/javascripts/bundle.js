@@ -31283,9 +31283,9 @@ var _nba_rankings = __webpack_require__(226);
 
 var _nba_rankings2 = _interopRequireDefault(_nba_rankings);
 
-var _player_rankings = __webpack_require__(229);
+var _user_rankings = __webpack_require__(229);
 
-var _player_rankings2 = _interopRequireDefault(_player_rankings);
+var _user_rankings2 = _interopRequireDefault(_user_rankings);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31334,8 +31334,8 @@ var HomePage = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'player-ranking' },
-                        _react2.default.createElement(_player_rankings2.default, {
+                        { className: 'user-ranking' },
+                        _react2.default.createElement(_user_rankings2.default, {
                             standings: standings
                         })
                     )
@@ -31967,11 +31967,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _player_rank = __webpack_require__(230);
+var _user_rank = __webpack_require__(230);
 
-var _player_rank2 = _interopRequireDefault(_player_rank);
+var _user_rank2 = _interopRequireDefault(_user_rank);
 
-var _player_draft = __webpack_require__(231);
+var _user_draft = __webpack_require__(231);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31981,43 +31981,43 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PlayerRankings = function (_React$Component) {
-    _inherits(PlayerRankings, _React$Component);
+var UserRankings = function (_React$Component) {
+    _inherits(UserRankings, _React$Component);
 
-    function PlayerRankings(props) {
-        _classCallCheck(this, PlayerRankings);
+    function UserRankings(props) {
+        _classCallCheck(this, UserRankings);
 
-        return _possibleConstructorReturn(this, (PlayerRankings.__proto__ || Object.getPrototypeOf(PlayerRankings)).call(this, props));
+        return _possibleConstructorReturn(this, (UserRankings.__proto__ || Object.getPrototypeOf(UserRankings)).call(this, props));
     }
 
-    _createClass(PlayerRankings, [{
+    _createClass(UserRankings, [{
         key: 'render',
         value: function render() {
             var standings = this.props.standings;
 
 
-            function getPlayerStandings() {
-                var playerStandings = [];
+            function getUserStandings() {
+                var userStandings = [];
                 var eastScore = 0;
                 var westScore = 0;
                 var eastCorrect = [];
                 var westCorrect = [];
                 if (standings.east.length !== 0) {
-                    for (var i = 0; i < _player_draft.PLAYERDRAFT.length; i++) {
-                        for (var j = 0; j < _player_draft.PLAYERDRAFT[i].RANK.EAST.length; j++) {
-                            if (_player_draft.PLAYERDRAFT[i].RANK.EAST[j] === standings.east[j].teamId) {
+                    for (var i = 0; i < _user_draft.USERDRAFT.length; i++) {
+                        for (var j = 0; j < _user_draft.USERDRAFT[i].RANK.EAST.length; j++) {
+                            if (_user_draft.USERDRAFT[i].RANK.EAST[j] === standings.east[j].teamId) {
                                 eastScore++;
-                                eastCorrect.push(_player_draft.PLAYERDRAFT[i].RANK.EAST[j]);
+                                eastCorrect.push(_user_draft.USERDRAFT[i].RANK.EAST[j]);
                             }
                         }
-                        for (var _j = 0; _j < _player_draft.PLAYERDRAFT[i].RANK.WEST.length; _j++) {
-                            if (_player_draft.PLAYERDRAFT[i].RANK.WEST[_j] === standings.west[_j].teamId) {
+                        for (var _j = 0; _j < _user_draft.USERDRAFT[i].RANK.WEST.length; _j++) {
+                            if (_user_draft.USERDRAFT[i].RANK.WEST[_j] === standings.west[_j].teamId) {
                                 westScore++;
-                                westCorrect.push(_player_draft.PLAYERDRAFT[i].RANK.WEST[_j]);
+                                westCorrect.push(_user_draft.USERDRAFT[i].RANK.WEST[_j]);
                             }
                         }
-                        playerStandings.push({
-                            name: _player_draft.PLAYERDRAFT[i].NAME,
+                        userStandings.push({
+                            name: _user_draft.USERDRAFT[i].NAME,
                             eastPoints: eastScore,
                             westPoints: westScore,
                             totalScore: eastScore + westScore
@@ -32026,20 +32026,20 @@ var PlayerRankings = function (_React$Component) {
                         westScore = 0;
                     }
                 }
-                return playerStandings.sort(function (a, b) {
+                return userStandings.sort(function (a, b) {
                     return b.totalScore - a.totalScore;
                 });
             }
 
-            var playerStandings = getPlayerStandings();
+            var userStandings = getUserStandings();
 
-            var playerRank = playerStandings.map(function (player) {
-                return _react2.default.createElement(_player_rank2.default, {
-                    key: player.name,
-                    name: player.name,
-                    total: player.totalScore,
-                    west: player.westPoints,
-                    east: player.eastPoints
+            var userRank = userStandings.map(function (user) {
+                return _react2.default.createElement(_user_rank2.default, {
+                    key: user.name,
+                    name: user.name,
+                    total: user.totalScore,
+                    west: user.westPoints,
+                    east: user.eastPoints
                 });
             });
 
@@ -32048,17 +32048,17 @@ var PlayerRankings = function (_React$Component) {
                 { className: 'conference-ranking' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'player-rank' },
-                    playerRank
+                    { className: 'user-rank' },
+                    userRank
                 )
             );
         }
     }]);
 
-    return PlayerRankings;
+    return UserRankings;
 }(_react2.default.Component);
 
-exports.default = PlayerRankings;
+exports.default = UserRankings;
 
 /***/ }),
 /* 230 */
@@ -32085,16 +32085,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PlayerRank = function (_React$Component) {
-    _inherits(PlayerRank, _React$Component);
+var UserRank = function (_React$Component) {
+    _inherits(UserRank, _React$Component);
 
-    function PlayerRank(props) {
-        _classCallCheck(this, PlayerRank);
+    function UserRank(props) {
+        _classCallCheck(this, UserRank);
 
-        return _possibleConstructorReturn(this, (PlayerRank.__proto__ || Object.getPrototypeOf(PlayerRank)).call(this, props));
+        return _possibleConstructorReturn(this, (UserRank.__proto__ || Object.getPrototypeOf(UserRank)).call(this, props));
     }
 
-    _createClass(PlayerRank, [{
+    _createClass(UserRank, [{
         key: 'render',
         value: function render() {
             var _props = this.props,
@@ -32106,7 +32106,7 @@ var PlayerRank = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'individual-user' },
                 name,
                 ': ',
                 total
@@ -32114,10 +32114,10 @@ var PlayerRank = function (_React$Component) {
         }
     }]);
 
-    return PlayerRank;
+    return UserRank;
 }(_react2.default.Component);
 
-exports.default = PlayerRank;
+exports.default = UserRank;
 
 /***/ }),
 /* 231 */
@@ -32129,7 +32129,7 @@ exports.default = PlayerRank;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var PLAYERDRAFT = exports.PLAYERDRAFT = [{
+var USERDRAFT = exports.USERDRAFT = [{
     NAME: "Joey Jirasevijinda",
     RANK: {
         EAST: ["1610612738", "1610612739", "1610612761", "1610612749", "1610612764", "1610612748", "1610612755", "1610612766", "1610612765", "1610612753", "1610612752", "1610612754", "1610612737", "1610612751", "1610612741"],

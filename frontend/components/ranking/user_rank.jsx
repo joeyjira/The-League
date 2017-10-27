@@ -1,6 +1,6 @@
 import React from 'react';
 
-class PlayerRank extends React.Component {
+class UserRank extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -9,11 +9,11 @@ class PlayerRank extends React.Component {
         const { name, total, west, east } = this.props
 
         return (
-            <div>
+            <div className='individual-user'>
                 {name}: {total}
             </div>
         )
     }
 }
 
-export default PlayerRank;
+export default UserRank;
