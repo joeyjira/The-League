@@ -32020,10 +32020,14 @@ var UserRankings = function (_React$Component) {
                             name: _user_draft.USERDRAFT[i].NAME,
                             eastPoints: eastScore,
                             westPoints: westScore,
+                            eastMatch: eastCorrect,
+                            westMatch: westCorrect,
                             totalScore: eastScore + westScore
                         });
                         eastScore = 0;
                         westScore = 0;
+                        eastCorrect = [];
+                        westCorrect = [];
                     }
                 }
                 return userStandings.sort(function (a, b) {
@@ -32032,6 +32036,8 @@ var UserRankings = function (_React$Component) {
             }
 
             var userStandings = getUserStandings();
+
+            console.log(userStandings);
 
             var userRank = userStandings.map(function (user) {
                 return _react2.default.createElement(_user_rank2.default, {

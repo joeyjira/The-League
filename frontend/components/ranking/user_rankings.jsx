@@ -35,10 +35,14 @@ class UserRankings extends React.Component {
                         name: USERDRAFT[i].NAME,
                         eastPoints: eastScore,
                         westPoints: westScore,
+                        eastMatch: eastCorrect,
+                        westMatch: westCorrect,
                         totalScore: eastScore + westScore
                     })
                     eastScore = 0;
                     westScore = 0;
+                    eastCorrect = [];
+                    westCorrect = [];
                 }
             }
             return userStandings.sort((a, b) => {
@@ -47,6 +51,8 @@ class UserRankings extends React.Component {
         }
 
         const userStandings = getUserStandings();
+
+        console.log(userStandings)
 
         const userRank = userStandings.map(user =>
             <UserRank 
