@@ -32018,6 +32018,8 @@ var UserRankings = function (_React$Component) {
                         }
                         userStandings.push({
                             name: _user_draft.USERDRAFT[i].NAME,
+                            eastStandings: _user_draft.USERDRAFT[i].RANK.EAST,
+                            westStandings: _user_draft.USERDRAFT[i].RANK.WEST,
                             eastPoints: eastScore,
                             westPoints: westScore,
                             eastMatch: eastCorrect,
@@ -32033,11 +32035,10 @@ var UserRankings = function (_React$Component) {
                 return userStandings.sort(function (a, b) {
                     return b.totalScore - a.totalScore;
                 });
+                console.log(userStandings);
             }
 
             var userStandings = getUserStandings();
-
-            console.log(userStandings);
 
             var userRank = userStandings.map(function (user) {
                 return _react2.default.createElement(_user_rank2.default, {
