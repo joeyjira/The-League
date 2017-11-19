@@ -32108,7 +32108,9 @@ var UserRank = function (_React$Component) {
                 name = _props.name,
                 total = _props.total,
                 west = _props.west,
-                east = _props.east;
+                east = _props.east,
+                eastStandings = _props.eastStandings,
+                westStandings = _props.westStandings;
 
 
             return _react2.default.createElement(

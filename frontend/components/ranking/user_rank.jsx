@@ -6,7 +6,7 @@ class UserRank extends React.Component {
     }
 
     render() {
-        const { name, total, west, east } = this.props
+        const { name, total, west, east, eastStandings, westStandings } = this.props
 
         return (
             <div className='user-rank'>
