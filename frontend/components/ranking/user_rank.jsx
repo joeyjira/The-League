@@ -7,6 +7,13 @@ class UserRank extends React.Component {
 
     render() {
         const { name, total, west, east, eastStandings, westStandings } = this.props
+        const standings = []
+        eastStandings.forEach(element => {
+            standings.push(element)
+        });
+        westStandings.forEach(element => {
+            standings.push(element)
+        });
 
         return (
             <div className='user-rank'>
