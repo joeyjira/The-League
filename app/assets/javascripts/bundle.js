@@ -32112,13 +32112,34 @@ var UserRank = function (_React$Component) {
                 eastStandings = _props.eastStandings,
                 westStandings = _props.westStandings;
 
+            var standings = [];
+            eastStandings.forEach(function (element) {
+                standings.push(element);
+            });
+            westStandings.forEach(function (element) {
+                standings.push(element);
+            });
+
+            var displayStandings = standings.map(function (team) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    team.name
+                );
+            });
 
             return _react2.default.createElement(
                 'div',
                 { className: 'user-rank' },
                 name,
                 ': ',
-                total
+                total,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'modal' },
+                    eastStandings,
+                    westStandings
+                )
             );
         }
     }]);
