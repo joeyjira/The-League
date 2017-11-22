@@ -15,6 +15,12 @@ class UserRank extends React.Component {
             standings.push(element)
         });
 
+        let displayStandings = standings.map((team) => {
+            return (
+                <div>{team.name}</div>
+            )
+        })
+
         return (
             <div className='user-rank'>
                 {name}: {total}
